@@ -15,7 +15,8 @@ const firebaseCredentials = {
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40distract-8b9b5.iam.gserviceaccount.com",
     "universe_domain": "googleapis.com"
-  }
+}
+console.log(firebaseCredentials)
 
 // Initialize Firebase Admin SDK
 admin.initializeApp({
@@ -36,9 +37,9 @@ app.post('/save-token', async (req, res) => {
     }
 
     try {
-        const db = admin.database();
-        const ref = db.ref('notificationTokens'); // Reference to your Firebase database
-        await ref.push({ token, username }); // Save both token and username
+        const db = admin.firestore();
+        const docRef = db.collection('notificationTokens').doc(); // Reference to your Firestore collection
+        await docRef.set({ token, username }); // Save both token and username
         res.status(200).send('Token saved successfully');
     } catch (error) {
         console.error('Error saving token:', error);
@@ -46,7 +47,7 @@ app.post('/save-token', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
