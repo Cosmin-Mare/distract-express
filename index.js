@@ -84,7 +84,7 @@ const sendNotificationsToAllTokens = async () => {
 };
 
 // Send notifications to all tokens every 60 seconds
-// setInterval(sendNotificationsToAllTokens, 60000);
+setInterval(sendNotificationsToAllTokens, 60000);
 
 // Endpoint to save notification token
 app.post('/save-token', async (req, res) => {
