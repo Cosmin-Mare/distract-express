@@ -9,7 +9,7 @@ const firebaseCredentials = {
     "type": "service_account",
     "project_id": "distract-8c17a",
     "private_key_id": "666f8349196319ed70b12897535c34eb85adda97",
-    "private_key": process.env.FIREBASE_KEY,
+    "private_key": process.env.FIREBASE_KEY.replace(/\\n/g, '\n'),
     "client_email": "firebase-adminsdk-fbsvc@distract-8c17a.iam.gserviceaccount.com",
     "client_id": "118028237806851432777",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
