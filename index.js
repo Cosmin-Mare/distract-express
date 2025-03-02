@@ -19,7 +19,7 @@ const firebaseCredentials = {
 
 // Initialize Firebase Admin SDK
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+    credential: admin.credential.cert(firebaseCredentials),
 });
 
 const app = express();
