@@ -19,8 +19,7 @@ const firebaseCredentials = {
 
 // Initialize Firebase Admin SDK
 admin.initializeApp({
-    credential: admin.credential.applicationDefault(),
-    databaseURL: 'https://distract-8b9b5.firebaseio.com' // Replace with your Firebase project ID
+    credential: admin.credential.cert(serviceAccount),
 });
 
 const app = express();
