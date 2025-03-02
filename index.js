@@ -89,15 +89,15 @@ setInterval(sendNotificationsToAllTokens, 20000);
 // Endpoint to save notification token
 app.post('/save-token', async (req, res) => {
     console.log("HERE");
-    const { token, username } = req.body;
-    if (!token || !username) {
-        return res.status(400).send('Token and username are required');
+    const { token } = req.body;
+    if (!token) {
+        return res.status(400).send('Token are required');
     }
 
     try {
         const db = admin.firestore();
         const docRef = db.collection('notificationTokens').doc();
-        await docRef.set({ token, username });
+        await docRef.set({ token });
         res.status(200).send('Token saved successfully');
     } catch (error) {
         console.error('Error saving token:', error);
