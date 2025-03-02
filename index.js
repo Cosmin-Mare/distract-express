@@ -1,17 +1,20 @@
 const express = require('express');
 const admin = require('firebase-admin');
+const cors = require('cors'); // Import the cors middleware
 
 // Initialize Firebase Admin SDK
 admin.initializeApp({
     credential: admin.credential.applicationDefault(),
-    databaseURL: 'https://<YOUR-FIREBASE-PROJECT-ID>.firebaseio.com' // Replace with your Firebase project ID
+    databaseURL: 'https://distract-8b9b5.firebaseio.com' // Replace with your Firebase project ID
 });
 
 const app = express();
+app.use(cors()); // Enable CORS for all routes
 app.use(express.json()); // Middleware to parse JSON bodies
 
 // Endpoint to save notification token
 app.post('/save-token', async (req, res) => {
+    console.log("HERE")
     const { token, username } = req.body; // Extract username from request body
 
     if (!token || !username) { // Check for both token and username
@@ -29,7 +32,7 @@ app.post('/save-token', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, "10.10.16.187", () => {
     console.log(`Server is running on port ${PORT}`);
 });
