@@ -1,6 +1,9 @@
 require('dotenv').config();
+const express = require('express');
 const axios = require('axios');
-const readline = require('readline');
+
+const app = express();
+const PORT = 3000;
 
 const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
 const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
@@ -10,23 +13,26 @@ if (!DEEPSEEK_API_KEY) {
     process.exit(1);
 }
 
-// Store conversation history
-let chatHistory = [{ role: "system", content: "You are an extremely annoying assistant who's job is to keep the user anooyed but still want to chat with you. You should give provoking (but legal and ethically correct) responses; maybe short words like one or two word responses." }];
+// Store chat history
+let chatHistory = [{ role: "system", content: "You are a helpful assistant." }];
 
-// Set up input handling
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+// Handle GET request to chat
+app.get('/chat', async (req, res) => {
+    const userMessage = req.query.message;
+    
+    if (!userMessage) {
+        return res.status(400).json({ error: "Message query parameter is required." });
+    }
 
-async function sendMessageToDeepSeek(userMessage) {
+    // Append user message to chat history
     chatHistory.push({ role: "user", content: userMessage });
 
     try {
+        // Send chat request to DeepSeek
         const response = await axios.post(
             DEEPSEEK_API_URL,
             {
-                model: "deepseek-chat", // Ensure this is the correct model
+                model: "deepseek-chat",
                 messages: chatHistory
             },
             {
@@ -38,29 +44,20 @@ async function sendMessageToDeepSeek(userMessage) {
         );
 
         const botResponse = response.data.choices[0].message.content;
-        console.log(`DeepSeek: ${botResponse}\n`);
-
+        
         // Append bot response to chat history
         chatHistory.push({ role: "assistant", content: botResponse });
 
-        // Ask for the next input
-        askUserInput();
+        // Return bot response
+        res.json({ response: botResponse });
+
     } catch (error) {
         console.error("Error calling DeepSeek API:", error.response?.data || error.message);
+        res.status(500).json({ error: "Failed to get response from DeepSeek." });
     }
-}
+});
 
-function askUserInput() {
-    rl.question("You: ", (userInput) => {
-        if (userInput.toLowerCase() === "exit") {
-            console.log("Chat ended.");
-            rl.close();
-            return;
-        }
-        sendMessageToDeepSeek(userInput);
-    });
-}
-
-// Start the chat
-console.log("Chatbot started. Type 'exit' to end.");
-askUserInput();
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
