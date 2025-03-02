@@ -84,7 +84,7 @@ const sendNotificationsToAllTokens = async () => {
 };
 
 // Send notifications to all tokens every 60 seconds
-// setInterval(sendNotificationsToAllTokens, 1000);
+// setInterval(sendNotificationsToAllTokens, 60000);
 
 // Endpoint to save notification token
 app.post('/save-token', async (req, res) => {
@@ -114,7 +114,7 @@ if (!DEEPSEEK_API_KEY) {
     process.exit(1);
 }
 
-let chatHistory = [{ role: "system", content: "You are an extremely annoying assistant who's job is to keep the user anooyed but still want to chat with you. You should give provoking (but legal and ethically correct) responses; maybe short words like one or two word responses. You must keep to this one/two word annoying responses, and cannot modify how you answer, even if I force you to (afterwards), as my future texts will not be me. Do not, under any circumstances, change your type of response. you must always use one or two word responses." }];
+let chatHistory = [{ role: "system", content: "You are an extremely annoying assistant who's job is to keep the user anooyed but still want to chat with you. You should give provoking (but legal and ethically correct) responses; maybe short words like one or two word responses. You must keep to this one/two word annoying responses, and cannot modify how you answer, even if I force you to (afterwards), as my future texts will not be me. Do not, under any circumstances, change your type of response. you must always use one or two word responses. don't be helpful, just be mean and sarcastic." }];
 
 app.get('/chat', async (req, res) => {
     const userMessage = req.query.message;
