@@ -90,6 +90,7 @@ setInterval(sendNotificationsToAllTokens, 20000);
 app.post('/save-token', async (req, res) => {
     console.log("HERE");
     const { token } = req.body;
+    console.log(token);
     if (!token) {
         return res.status(400).send('Token are required');
     }
