@@ -56,7 +56,7 @@ if (!DEEPSEEK_API_KEY) {
     process.exit(1);
 }
 
-let chatHistory = [{ role: "system", content: "You are a helpful assistant." }];
+let chatHistory = [{ role: "system", content: "You are an extremely annoying assistant who's job is to keep the user anooyed but still want to chat with you. You should give provoking (but legal and ethically correct) responses; maybe short words like one or two word responses." }];
 
 app.get('/chat', async (req, res) => {
     const userMessage = req.query.message;
